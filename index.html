@@ -101,8 +101,6 @@ canvas {
 
 <div class="container">
     <div class="caption">ASSET STATUS · 2026</div>
-
-    <!-- ★ ここが最重要：width / height を必ず指定 -->
     <canvas id="portfolioChart" width="420" height="420"></canvas>
 </div>
 
@@ -123,7 +121,16 @@ new Chart(ctx, {
             'Cash'
         ],
         datasets: [{
-            data: [44, 28, 19, 8, 1, 5, 28],
+            // ★ 正しい構成比（％）
+            data: [
+                27.7, // MSCI ACWI
+                17.9, // S&P500
+                12.7, // NASDAQ100
+                6.9,  // S&P1000
+                1.2,  // QLD
+                5.2,  // GOLD
+                28.3  // Cash
+            ],
             backgroundColor: [
                 'rgba(0,0,255,0.9)',
                 'rgba(255,0,0,0.9)',
