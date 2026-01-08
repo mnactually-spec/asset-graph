@@ -172,10 +172,6 @@
             callbacks: {
               label: c => `${c.label}: ${c.parsed}%`
             },
-            titleFont: {
-              size: 30,
-              weight: '600'
-            },
             bodyFont: {
               size: 30
             },
@@ -190,7 +186,7 @@
             font: {
               family: 'Inter',
               weight: '500',
-              size: 14
+              size: 12
             },
             formatter: (_, context) =>
               context.chart.data.labels[context.dataIndex]
@@ -202,6 +198,7 @@
   </script>
 </body>
 </html>
+
 
 
 
