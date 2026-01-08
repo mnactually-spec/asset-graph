@@ -43,8 +43,8 @@ body::before {
 
 .backlight {
     position: absolute;
-    width: 640px;
-    height: 640px;
+    width: 90vmin;
+    height: 90vmin;
     background:
         radial-gradient(circle,
             rgba(0,220,255,0.28) 0%,
@@ -63,8 +63,7 @@ body::before {
 
 .container {
     position: relative;
-    width: 520px;
-    max-width: 92vw;
+    width: min(520px, 92vw);
     padding: 24px;
     background: rgba(6, 12, 20, 0.78);
     border: 1px solid rgba(255,255,255,0.25);
@@ -84,29 +83,13 @@ body::before {
     font-size: 11px;
     letter-spacing: 1.6px;
     color: rgba(200,230,240,0.65);
-    user-select: none;
 }
 
 canvas {
-    display: block;
     width: 100% !important;
     height: auto !important;
+    display: block;
     margin: 12px auto 6px;
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 18px;
-    }
-    .backlight {
-        width: 90vw;
-        height: 90vw;
-        filter: blur(48px);
-    }
-    .caption {
-        font-size: 10px;
-        letter-spacing: 1.2px;
-    }
 }
 </style>
 </head>
@@ -121,10 +104,10 @@ canvas {
 </div>
 
 <script>
-const ctx = document.getElementById('portfolioChart').getContext('2d');
+const ctx = document.getElementById('portfolioChart');
 const backlight = document.querySelector('.backlight');
 
-new Chart(ctx, {
+const chart = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: [
@@ -155,27 +138,15 @@ new Chart(ctx, {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: true,
         cutout: '65%',
-        animation: {
-            duration: 1400,
-            easing: 'easeOutCubic',
-            animateRotate: true,
-            animateScale: true,
-            onComplete: () => {
-                backlight.classList.add('on');
-            }
-        },
+        animation: false,
         plugins: {
             legend: {
                 position: 'bottom',
                 labels: {
                     color: '#fff',
                     padding: 14,
-                    font: {
-                        family: 'Inter',
-                        size: 12
-                    }
+                    font: { size: 12 }
                 }
             },
             tooltip: {
@@ -184,12 +155,8 @@ new Chart(ctx, {
                 }
             },
             datalabels: {
-                color: '#ffffff',
-                font: {
-                    family: 'Inter',
-                    weight: '600',
-                    size: 10
-                },
+                color: '#fff',
+                font: { size: 10, weight: '600' },
                 formatter: (_, ctx) =>
                     ctx.chart.data.labels[ctx.dataIndex]
             }
@@ -197,6 +164,17 @@ new Chart(ctx, {
     },
     plugins: [ChartDataLabels]
 });
+
+setTimeout(() => {
+    chart.options.animation = {
+        duration: 1400,
+        easing: 'easeOutCubic',
+        onComplete: () => {
+            backlight.classList.add('on');
+        }
+    };
+    chart.update();
+}, 60);
 </script>
 
 </body>
