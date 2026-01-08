@@ -2,7 +2,6 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ASSET STATUS 2026</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -41,10 +40,11 @@ body::before {
     pointer-events: none;
 }
 
+/* 背景バックライト */
 .backlight {
     position: absolute;
-    width: 90vmin;
-    height: 90vmin;
+    width: 640px;
+    height: 640px;
     background:
         radial-gradient(circle,
             rgba(0,220,255,0.28) 0%,
@@ -63,7 +63,7 @@ body::before {
 
 .container {
     position: relative;
-    width: min(520px, 92vw);
+    width: min(92vw, 520px);
     padding: 24px;
     background: rgba(6, 12, 20, 0.78);
     border: 1px solid rgba(255,255,255,0.25);
@@ -83,12 +83,13 @@ body::before {
     font-size: 11px;
     letter-spacing: 1.6px;
     color: rgba(200,230,240,0.65);
+    user-select: none;
 }
 
 canvas {
-    width: 100% !important;
-    height: auto !important;
     display: block;
+    width: 100%;
+    height: auto;
     margin: 12px auto 6px;
 }
 </style>
@@ -100,14 +101,16 @@ canvas {
 
 <div class="container">
     <div class="caption">ASSET STATUS · 2026</div>
-    <canvas id="portfolioChart"></canvas>
+
+    <!-- ★ ここが最重要：width / height を必ず指定 -->
+    <canvas id="portfolioChart" width="420" height="420"></canvas>
 </div>
 
 <script>
-const ctx = document.getElementById('portfolioChart');
+const ctx = document.getElementById('portfolioChart').getContext('2d');
 const backlight = document.querySelector('.backlight');
 
-const chart = new Chart(ctx, {
+new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: [
@@ -138,15 +141,27 @@ const chart = new Chart(ctx, {
     },
     options: {
         responsive: true,
+        maintainAspectRatio: true,
         cutout: '65%',
-        animation: false,
+        animation: {
+            animateRotate: true,
+            animateScale: true,
+            duration: 1400,
+            easing: 'easeOutCubic',
+            onComplete: () => {
+                backlight.classList.add('on');
+            }
+        },
         plugins: {
             legend: {
                 position: 'bottom',
                 labels: {
                     color: '#fff',
                     padding: 14,
-                    font: { size: 12 }
+                    font: {
+                        family: 'Inter',
+                        size: 12
+                    }
                 }
             },
             tooltip: {
@@ -155,8 +170,12 @@ const chart = new Chart(ctx, {
                 }
             },
             datalabels: {
-                color: '#fff',
-                font: { size: 10, weight: '600' },
+                color: '#ffffff',
+                font: {
+                    family: 'Inter',
+                    weight: '600',
+                    size: 10
+                },
                 formatter: (_, ctx) =>
                     ctx.chart.data.labels[ctx.dataIndex]
             }
@@ -164,17 +183,6 @@ const chart = new Chart(ctx, {
     },
     plugins: [ChartDataLabels]
 });
-
-setTimeout(() => {
-    chart.options.animation = {
-        duration: 1400,
-        easing: 'easeOutCubic',
-        onComplete: () => {
-            backlight.classList.add('on');
-        }
-    };
-    chart.update();
-}, 60);
 </script>
 
 </body>
