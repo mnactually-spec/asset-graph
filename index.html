@@ -94,19 +94,15 @@ canvas {
     margin: 12px auto 6px;
 }
 
-/* ===== スマホ縦画面最適化 ===== */
 @media (max-width: 480px) {
-
     .container {
         padding: 18px;
     }
-
     .backlight {
         width: 90vw;
         height: 90vw;
         filter: blur(48px);
     }
-
     .caption {
         font-size: 10px;
         letter-spacing: 1.2px;
@@ -164,6 +160,8 @@ new Chart(ctx, {
         animation: {
             duration: 1400,
             easing: 'easeOutCubic',
+            animateRotate: true,
+            animateScale: true,
             onComplete: () => {
                 backlight.classList.add('on');
             }
