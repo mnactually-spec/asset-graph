@@ -1,216 +1,204 @@
-<!DOCTYPE html>  <html lang="ja">  
-<head>  
-<meta charset="UTF-8">  
-<title>ASSET STATUS 2026</title>  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">  <style>  
-html, body {  
-    height: 100%;  
-    margin: 0;  
-    font-family: 'Inter', sans-serif;  
-    color: #fff;  
-}  
-  
-body {  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    background:  
-        radial-gradient(circle at 30% 20%, rgba(0,180,255,0.18), transparent 40%),  
-        radial-gradient(circle at 70% 80%, rgba(255,215,0,0.12), transparent 45%),  
-        linear-gradient(180deg, #050b12 0%, #000814 100%);  
-    overflow: hidden;  
-}  
-  
-body::before {  
-    content: "";  
-    position: fixed;  
-    inset: 0;  
-    background-image:  
-        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),  
-        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);  
-    background-size: 40px 40px;  
-    opacity: 0.35;  
-    pointer-events: none;  
-}  
-  
-/* 背景バックライト */  
-.backlight {  
-    position: absolute;  
-    width: 640px;  
-    height: 640px;  
-    background:  
-        radial-gradient(circle,  
-            rgba(0,220,255,0.28) 0%,  
-            rgba(0,160,220,0.18) 40%,  
-            rgba(0,120,180,0.06) 60%,  
-            transparent 72%);  
-    filter: blur(60px);  
-    opacity: 0;  
-    transition: opacity 360ms ease-out;  
-    z-index: 0;  
-}  
-  
-.backlight.on {  
-    opacity: 1;  
-}  
-  
-.container {  
-    position: relative;  
-    width: min(92vw, 520px);  
-    padding: 24px;  
-    background: rgba(6, 12, 20, 0.78);  
-    border: 1px solid rgba(255,255,255,0.25);  
-    box-shadow:  
-        0 0 36px rgba(0,200,255,0.12),  
-        inset 0 0 18px rgba(255,255,255,0.05);  
-    backdrop-filter: blur(10px);  
-    text-align: center;  
-    z-index: 1;  
-}  
-  
-.caption {  
-    position: absolute;  
-    top: 10px;  
-    right: 14px;  
-    font-family: 'Space Grotesk', sans-serif;  
-    font-size: 11px;  
-    letter-spacing: 1.6px;  
-    color: rgba(200,230,240,0.65);  
-    user-select: none;  
-}  
-  
-canvas {  
-    display: block;  
-    width: 100%;  
-    height: auto;  
-    margin: 12px auto 6px;  
-}  
-</style>  </head>  <body>  <div class="backlight"></div>  <div class="container">  
-    <div class="caption">ASSET STATUS · 2026</div>  
-    <canvas id="portfolioChart" width="420" height="420"></canvas>  
-</div>  <script>  
-const ctx = document.getElementById('portfolioChart').getContext('2d');  
-const backlight = document.querySelector('.backlight');  
-  
-new Chart(ctx, {  
-    type: 'doughnut',  
-    data: {  
-        labels: [  
-            'MSCI ACWI',  
-            'S&P500',  
-            'NASDAQ100',  
-            'S&P1000',  
-            'QLD',  
-            'GOLD',  
-            'Cash'  
-        ],  
-        datasets: [{  
-            // ★ 正しい構成比（％）  
-            data: [  
-                27.7, // MSCI ACWI  
-                17.9, // S&P500  
-                12.7, // NASDAQ100  
-                6.9,  // S&P1000  
-                1.2,  // QLD  
-                5.2,  // GOLD（ゴルプラ＋ナスプラ＋金ETF）  
-                28.3  // Cash  
-            ],  
-            backgroundColor: [  
-                'rgba(40,80,255,0.95)',  
-                'rgba(255,150,60,0.85)',  
-                'rgba(147,50,211,0.85)',  
-                'rgba(110,150,110,0.85)',  
-                'rgba(200,20,20,20.85)',  
-                'rgba(255,215,0,0.95)',  
-                'rgba(220,160,160,0.25)'  
-            ],  
-            borderColor: 'rgba(10,15,25,0.9)',  
-            borderWidth: 8,  
-            spacing: 0,  
-            hoverOffset: 50  
-        }]  
-    },  
-    options: {  
-        responsive: true,  
-        maintainAspectRatio: true,  
-        cutout: '50%',  
-        animation: {  
-            animateRotate: true,  
-            animateScale: true,  
-            duration: 1400,  
-            easing: 'easeOutCubic',  
-            onComplete: () => {  
-                backlight.classList.add('on');  
-            }  
-        },  
-        plugins: {  
-            legend: {  
-                position: 'bottom',  
-                labels: {  
-                    color: '#fff',  
-                    padding: 14,  
-                    font: {  
-                        family: 'Inter',  
-                        size: 12  
-                    }  
-                }  
-            },  
-            tooltip: {  
-                callbacks: {  
-                    label: c => `${c.label}: ${c.parsed}%` } ,            
-    titleFont: {
-      size: 16,
-      weight: '600'
-    },
-    bodyFont: {
-      size: 15
-    },
-    padding: 14,
-    boxWidth: 14,
-    boxHeight: 14,
-    cornerRadius: 8,
-    backgroundColor: 'rgba(15,20,30,0.95)'
-  }
-}
-            },  
-            datalabels: {  
-                color: '#ffffff',  
-                font: {  
-                    family: 'Inter',  
-                    weight: '600',  
-                    size: 10  
-                },  
-                formatter: (_, ctx) =>  
-                    ctx.chart.data.labels[ctx.dataIndex]  
-            }  
-        }  
-    },  
-    plugins: [ChartDataLabels]  
-});  
-</script>  </body>  
-</html> 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ASSET STATUS 2026</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
 
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+    }
 
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(0,180,255,0.18), transparent 40%),
+        radial-gradient(circle at 70% 80%, rgba(255,215,0,0.12), transparent 45%),
+        linear-gradient(180deg, #050b12 0%, #000814 100%);
+      overflow: hidden;
+    }
 
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
 
+    .backlight {
+      position: absolute;
+      width: 640px;
+      height: 640px;
+      background:
+        radial-gradient(circle,
+          rgba(0,220,255,0.28) 0%,
+          rgba(0,160,220,0.18) 40%,
+          rgba(0,120,180,0.06) 60%,
+          transparent 72%);
+      filter: blur(60px);
+      opacity: 0;
+      transition: opacity 360ms ease-out;
+      z-index: 0;
+    }
 
+    .backlight.on {
+      opacity: 1;
+    }
 
+    .container {
+      position: relative;
+      width: min(92vw, 520px);
+      padding: 24px;
+      background: rgba(6, 12, 20, 0.78);
+      border: 1px solid rgba(255,255,255,0.25);
+      box-shadow:
+        0 0 36px rgba(0,200,255,0.12),
+        inset 0 0 18px rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      z-index: 1;
+    }
 
+    .caption {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      letter-spacing: 1.6px;
+      color: rgba(200,230,240,0.65);
+      user-select: none;
+    }
 
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 12px auto 6px;
+    }
+  </style>
+</head>
 
+<body>
+  <div class="backlight"></div>
 
+  <div class="container">
+    <div class="caption">ASSET STATUS · 2026</div>
+    <canvas id="portfolioChart" width="420" height="420"></canvas>
+  </div>
 
+  <script>
+    const ctx = document.getElementById('portfolioChart').getContext('2d');
+    const backlight = document.querySelector('.backlight');
 
-
-
-
-
-
-
-
-
-
-
-
-
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [
+          'MSCI ACWI',
+          'S&P500',
+          'NASDAQ100',
+          'S&P1000',
+          'QLD',
+          'GOLD',
+          'Cash'
+        ],
+        datasets: [{
+          data: [
+            27.7,
+            17.9,
+            12.7,
+            6.9,
+            1.2,
+            5.2,
+            28.3
+          ],
+          backgroundColor: [
+            'rgba(40,80,255,0.95)',
+            'rgba(255,150,60,0.85)',
+            'rgba(147,50,211,0.85)',
+            'rgba(110,150,110,0.85)',
+            'rgba(200,20,20,0.85)',
+            'rgba(255,215,0,0.95)',
+            'rgba(220,160,160,0.25)'
+          ],
+          borderColor: 'rgba(10,15,25,0.9)',
+          borderWidth: 8,
+          spacing: 0,
+          hoverOffset: 50
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        cutout: '50%',
+        animation: {
+          animateRotate: true,
+          animateScale: true,
+          duration: 1400,
+          easing: 'easeOutCubic',
+          onComplete: () => {
+            backlight.classList.add('on');
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#fff',
+              padding: 14,
+              font: {
+                family: 'Inter',
+                size: 12
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: c => `${c.label}: ${c.parsed}%`
+            },
+            titleFont: {
+              size: 16,
+              weight: '600'
+            },
+            bodyFont: {
+              size: 15
+            },
+            padding: 14,
+            boxWidth: 14,
+            boxHeight: 14,
+            cornerRadius: 8,
+            backgroundColor: 'rgba(15,20,30,0.95)'
+          },
+          datalabels: {
+            color: '#ffffff',
+            font: {
+              family: 'Inter',
+              weight: '600',
+              size: 10
+            },
+            formatter: (_, context) =>
+              context.chart.data.labels[context.dataIndex]
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  </script>
+</body>
+</html>
