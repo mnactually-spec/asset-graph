@@ -169,17 +169,17 @@
             }
           },
           tooltip: {
-            callbacks: {
+            callbacks: { title: () => '',
               label: c => `${c.label}: ${c.parsed}%`
             },
             bodyFont: {
-              size: 30
+              size: 20
             },
             padding: 24,
             boxWidth: 24,
-            boxHeight: 24,
-            cornerRadius: 8,
-            backgroundColor: 'rgba(15,20,30,0.95)'
+            boxHeight: 20,
+            cornerRadius: 12,
+            backgroundColor: 'rgba(15,20,30,0.55)'
           },
           datalabels: {
             color: '#ffffff',
@@ -198,6 +198,7 @@
   </script>
 </body>
 </html>
+
 
 
 
