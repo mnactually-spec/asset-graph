@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ASSET STATUS 2026</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -63,6 +64,7 @@ body::before {
 .container {
     position: relative;
     width: 520px;
+    max-width: 92vw;
     padding: 24px;
     background: rgba(6, 12, 20, 0.78);
     border: 1px solid rgba(255,255,255,0.25);
@@ -87,7 +89,28 @@ body::before {
 
 canvas {
     display: block;
+    width: 100% !important;
+    height: auto !important;
     margin: 12px auto 6px;
+}
+
+/* ===== スマホ縦画面最適化 ===== */
+@media (max-width: 480px) {
+
+    .container {
+        padding: 18px;
+    }
+
+    .backlight {
+        width: 90vw;
+        height: 90vw;
+        filter: blur(48px);
+    }
+
+    .caption {
+        font-size: 10px;
+        letter-spacing: 1.2px;
+    }
 }
 </style>
 </head>
@@ -128,13 +151,15 @@ new Chart(ctx, {
                 'rgba(255,215,0,0.95)',
                 'rgba(160,160,160,0.9)'
             ],
-            borderColor: 'rgba(5,11,18,0.95)',  // 背景同化ブラック
+            borderColor: 'rgba(5,11,18,0.95)',
             borderWidth: 2,
             spacing: 4,
             hoverOffset: 18
         }]
     },
     options: {
+        responsive: true,
+        maintainAspectRatio: true,
         cutout: '65%',
         animation: {
             duration: 1400,
@@ -178,5 +203,3 @@ new Chart(ctx, {
 
 </body>
 </html>
-
-
